@@ -1,5 +1,7 @@
 const sequelize = require("../config/db");
-const Parfum = require("./parfum.model");
+const Parfum = require('./parfum.model');
+const User = require("./user");
+const Commande = require("./commande");
 
 const connectDB = async () => {
   try {
@@ -13,5 +15,12 @@ const connectDB = async () => {
     console.error("Erreur de connexion à la base de données ❌:", error);
   }
 };
+
+//Relations
+User.hasMany(Commande, {foreignKey: "userId"});
+Commande.belongsTo(User, {foreignKey: "userId"});
+
+Parfum.hasMany(Commande, {foreignKey: "parfumId"});
+Commande.belongsTo(Parfum, {foreignKey: "parfumId"});
 
 module.exports = connectDB;
